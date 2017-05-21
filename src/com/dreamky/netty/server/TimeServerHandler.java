@@ -8,6 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class TimeServerHandler extends ChannelInboundHandlerAdapter {
+	
+	private int count =0;
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -22,6 +24,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
 		buf.readBytes(req);
 		String body = new String(req,"UTF-8");
 		System.out.println("收到客户端的请求：" + body);
+		System.out.println(Thread.currentThread().getName() + "收到客户端的第" + ++count + "次请求");
 		ByteBuf resp = Unpooled.copiedBuffer(new Date().toString().getBytes());
 		ctx.write(resp);
 	}
